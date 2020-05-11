@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   layout :layout
+  before_action :authenticate_user!
 
   private
   def layout

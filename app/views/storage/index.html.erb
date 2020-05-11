@@ -1,0 +1,69 @@
+<main>
+    <header>
+      <h1 class="title">Depolar</h1>
+      <nav class="nav-tabs" id="nav-tabs">
+      </nav>
+    </header>
+    <div class="content-columns" style="with: 100%">
+      <table class="ui blue table">
+        <thead>
+          <tr><th>Depo Adı</th>
+          <th>Depo Numarası</th>
+          <th>Toplam Ürün</th>
+          <th>İşlem</th>
+        </tr></thead><tbody>
+          <% @storages.each do |s| %>
+            <tr>
+              <td><%= s.name %> </td>
+              <td><%= s.no %></td>
+
+              <td>200</td>
+              <td><i class="edit icon"></i></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td>Depo 2</td>
+            <td>1558412</td>
+            <td>310</td>
+            <td><i class="edit icon"></i></td>
+          </tr>
+        </tbody>
+        <tfoot class="full-width">
+           <tr>
+             <th></th>
+             <th colspan="4">
+               <div class="ui right floated small primary labeled icon button" id="modal">
+                 <i class="plus icon"></i> Depo Ekle
+               </div>
+             </th>
+           </tr>
+         </tfoot>
+      </table>
+    </div>
+</main>
+<div class="ui small modal">
+  <div class="header">Ürün Ekle</div>
+  <div class="content">
+    <%= form_for(@storage, html: { class: "ui form" }, url: '') do |f| %>
+      <div class="field">
+        <label>Depo Adı</label>
+        <%= f.text_field :name, placeholder: "Depo Adı", require: true %>
+      </div>
+      <div class="field">
+        <label>Depo Numarası</label>
+        <%= f.text_field :no, placeholder: "Depo Numarası", require: true %>
+      </div>
+      <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Ekle</button>
+    <% end %>
+  </div>
+</div>
+<script>
+  $('#modal').click(function(event) {
+      $('.ui.small.modal')
+          .modal({
+              autofocus: false
+          })
+          .modal('show');
+  })
+
+</script>
