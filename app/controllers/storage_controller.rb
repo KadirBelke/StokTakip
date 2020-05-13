@@ -3,7 +3,16 @@ class StorageController < ApplicationController
 
 
   def index
-    @storages = Storage.all
+    storages = Storage.all
+    @storages_lass = []
+    @storages_than = []
+    storages.each do |s|
+      if s.materials.where(piece: -Float::INFINITY..5).present?
+        @storages_lass << s
+      else
+        @storages_than << s
+      end
+    end
     @storage = Storage.new
   end
 
@@ -31,13 +40,10 @@ class StorageController < ApplicationController
 
   def destroy
     storage = Storage.find(params[:id])
-    if storage.destroy
-      flash[:success] = "Silindi"
-      redirect_to storage_index_path
-    else
-      flash[:success] = "Silindi"
-      render :index
-    end
+    Material.where(storage: storage).delete_all
+    storage.destroy
+    flash[:success] = "Silindi"
+    redirect_to storage_index_path
   end
 
   private

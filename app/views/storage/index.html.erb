@@ -11,18 +11,19 @@
             <th>Depo Adı</th>
             <th>Depo Numarası</th>
             <th>Toplam Ürün</th>
+            <th> Malzeme Alarımı </th>
             <th>İşlem</th>
           </tr>
         </thead>
         <tbody>
-          <% @storages.each do |s| %>
+          <% @storages_lass.each do |s| %>
             <tr>
-              <td><%= s.name %> </td>
+              <td><%= link_to s.name, materials_index_path(s.id)%> </td>
               <td><%= s.no %></td>
-
               <td>200</td>
+              <td><i class="bell red icon"></i></td>
               <td>
-                <a style="cursor: pointer"><i class="edit icon" id="edit-storage-button-<%= s.id %>"></i></a>
+                <a style="cursor: pointer" data-tooltip="Depoyu Düzenle" data-inverted=""><i class="edit icon" id="edit-storage-button-<%= s.id %>"></i></a>
                 <div class="ui small modal" id="edit-storage-modal-<%= s.id %>">
                   <div class="header">Depo Düznle</div>
                   <div class="content">
@@ -48,7 +49,73 @@
                           .modal('show');
                   })
                 </script>
-                <a style="cursor: pointer"><i class="trash alternate red icon" id="delete-storage-button-<%= s.id %>"></i></a>
+                <a style="cursor: pointer" data-tooltip="Depoyu Sil" data-inverted=""><i class="trash alternate red icon" id="delete-storage-button-<%= s.id %>"></i></a>
+                <div class="ui basic mini modal" id="delete-storage-modal-<%= s.id %>">
+                  <div class="ui icon header">
+                    Depo Silme
+                  </div>
+                  <div class="content">
+                    <p style="text-align: center;font-size: 16px">Depo silindiğinde içinideki <b style="color: brown">malzemelerde</b> silinecektir!</p>
+                  </div>
+                  <div class="actions">
+                    <div class="ui basic cancel inverted button">
+                      <i class="remove icon"></i>
+                      İptal
+                    </div>
+                    <%= link_to storage_path(s.id),method: :delete do%>
+                      <div class="ui red ok inverted button">
+                          <i class="checkmark icon"></i>
+                          Sil
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#delete-storage-button-<%= s.id%>').click(function(event) {
+                      $('#delete-storage-modal-<%= s.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
+              </td>
+            </tr>
+          <% end %>
+          <% @storages_than.each do |s| %>
+            <tr>
+              <td><%= link_to s.name, materials_index_path(s.id)%> </td>
+              <td><%= s.no %></td>
+              <td>200</td>
+              <td><i class="bell green icon"></i></td>
+              <td>
+                <a style="cursor: pointer" data-tooltip="Depoyu Düzenle" data-inverted=""><i class="edit icon" id="edit-storage-button-<%= s.id %>"></i></a>
+                <div class="ui small modal" id="edit-storage-modal-<%= s.id %>">
+                  <div class="header">Depo Düznle</div>
+                  <div class="content">
+                    <%= form_for(s, html: { class: "ui form" }, url: storage_path(s.id)) do |f| %>
+                      <div class="field">
+                        <label>Depo Adı</label>
+                        <%= f.text_field :name, placeholder: "Depo Adı", require: true %>
+                      </div>
+                      <div class="field">
+                        <label>Depo Numarası</label>
+                        <%= f.text_field :no, placeholder: "Depo Numarası", require: true %>
+                      </div>
+                      <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Düzenle</button>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#edit-storage-button-<%= s.id%>').click(function(event) {
+                      $('#edit-storage-modal-<%= s.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
+                <a style="cursor: pointer" data-tooltip="Depoyu Sil" data-inverted=""><i class="trash alternate red icon" id="delete-storage-button-<%= s.id %>"></i></a>
                 <div class="ui basic mini modal" id="delete-storage-modal-<%= s.id %>">
                   <div class="ui icon header">
                     Depo Silme
