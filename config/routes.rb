@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'dashboard#index'
+  root to: 'storage#index'
   devise_for :users
 
   resources :storage,  only: %i[index create update destroy]
