@@ -18,12 +18,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.4/semantic.min.css">
 
     <%= stylesheet_link_tag 'login' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.4/semantic.min.js"></script>
+
   </head>
 
-  <body class="body">
+  <body class="body">asd
+    <% flash.each do |key, value| %>
+      <script>
+        $('body')
+          .toast({
+            class: '<%= key %>',
+            showIcon: false,
+            message: '<%= value %>'
+          })
+        ;
+      </script>
+    <% end %>
     <%= yield %>
   </body>
 </html>

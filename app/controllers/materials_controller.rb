@@ -2,10 +2,9 @@ class MaterialsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-
     @storage = Storage.find(params[:id])
-    @materials_than = Material.where(storage: params[:id], piece: 6..Float::INFINITY)
-    @materials_less = Material.where(storage: params[:id], piece: -Float::INFINITY..5 )
+    @materials_than = Material.where("storage_id = ? AND piece > 5", params[:id])
+    @materials_less = Material.where("storage_id = ? AND piece < 6", params[:id])
     @material = Material.new
   end
 
@@ -13,7 +12,7 @@ class MaterialsController < ApplicationController
     material = Material.new material_params
     if material.save
       flash[:success] = "Kaydedildi"
-      redirect_to
+      redirect_to materials_index_path(material.storage_id)
     else
       flash[:error] = "Hata Oluştu"
       render :index
@@ -21,9 +20,33 @@ class MaterialsController < ApplicationController
   end
 
   def update
+    material = Material.find(params[:id])
+    if params[:state] == "edit"
+      if material.update material_params
+        flash[:success] = "Güncellendi"
+        redirect_to materials_index_path(material.storage_id)
+      else
+        flash[:error] = "Hata Oluştu"
+        render :index
+      end
+    else
+      material.piece += params[:material][:piece].to_i if params[:state] == "add"
+      material.piece -= params[:material][:piece].to_i if params[:state] == "minus"
+      if material.save
+        flash[:success] = "Güncellendi"
+        redirect_to materials_index_path(material.storage_id)
+      else
+        flash[:error] = "Hata Oluştu"
+        render :index
+      end
+    end
   end
 
   def destroy
+    material = Material.find(params[:id])
+    material.destroy
+    flash[:success] = "Silindi"
+    redirect_to materials_index_path(material.storage_id)
   end
 
   private

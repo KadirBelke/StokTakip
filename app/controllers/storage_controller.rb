@@ -4,15 +4,8 @@ class StorageController < ApplicationController
 
   def index
     storages = Storage.all
-    @storages_lass = []
-    @storages_than = []
-    storages.each do |s|
-      if s.materials.where(piece: -Float::INFINITY..5).present?
-        @storages_lass << s
-      else
-        @storages_than << s
-      end
-    end
+    @storages_less = Material.where("piece < 6").map(&:storage).uniq
+    @storages_than = storages - @storages_less
     @storage = Storage.new
   end
 

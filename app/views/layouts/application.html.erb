@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
   <head>
     <title>StokTakip</title>
@@ -16,14 +16,26 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.4/semantic.min.css">
     <%= stylesheet_link_tag 'menu' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.4/semantic.min.js"></script>
 
   </head>
 
   <body>
+    <% flash.each do |key, value| %>
+      <script>
+        $('body')
+          .toast({
+            class: '<%= key %>',
+            showIcon: false,
+            message: '<%= value %>'
+          })
+        ;
+      </script>
+    <% end %>
     <div class="site-wrap">
       <nav class="site-nav">
         <div class="name">
-          <%= current_user.email %>
+          <%= current_user.name + " " + current_user.surname %>
         </div>
         <ul>
           <li class="<%='active' if params[:controller] == 'dashboard'%>">
@@ -51,10 +63,10 @@
             <%end%>
           </li>
           <li>
-            <%= link_to root_path do %>
+            <%= link_to destroy_user_session_path, method: :delete do %>
               <i class="sign out alternate icon"></i>
               Çıkış Yap
-            <%end%>
+            <% end %>
           </li>
         </ul>
       </nav>

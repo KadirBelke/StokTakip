@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_123629) do
+ActiveRecord::Schema.define(version: 2020_05_20_111342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "adds", force: :cascade do |t|
+    t.integer "count"
+    t.bigint "materials_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["materials_id"], name: "index_adds_on_materials_id"
+  end
 
   create_table "materials", force: :cascade do |t|
     t.string "no"
@@ -23,6 +31,14 @@ ActiveRecord::Schema.define(version: 2020_05_13_123629) do
     t.datetime "updated_at", null: false
     t.bigint "storage_id"
     t.index ["storage_id"], name: "index_materials_on_storage_id"
+  end
+
+  create_table "negatives", force: :cascade do |t|
+    t.integer "count"
+    t.bigint "materials_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["materials_id"], name: "index_negatives_on_materials_id"
   end
 
   create_table "storages", force: :cascade do |t|
@@ -40,9 +56,14 @@ ActiveRecord::Schema.define(version: 2020_05_13_123629) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "surname"
+    t.string "title"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "adds", "materials", column: "materials_id"
   add_foreign_key "materials", "storages"
+  add_foreign_key "negatives", "materials", column: "materials_id"
 end

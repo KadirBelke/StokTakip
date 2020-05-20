@@ -21,11 +21,111 @@
               <td><%= m.name %></td>
               <td><%= m.no %></td>
               <td><%= m.piece %></td>
-              <td><a style="cursor: pointer" data-tooltip="Az Adet" data-inverted=""><i class="bell red icon"></i></a><td>
-                <a style="cursor: pointer" data-tooltip="Ekle" data-inverted=""><i class="plus icon green"></i></a>
-                <a style="cursor: pointer" data-tooltip="Çıkar" data-inverted=""><i class="minus icon red"></i></a>
-                <a style="cursor: pointer" data-tooltip="Düzenle" data-inverted=""><i class="edit icon"></i></a>
-                <a style="cursor: pointer" data-tooltip="Sil" data-inverted=""><i class="trash alternate icon red"></i></a>
+              <td><a style="cursor: pointer" data-tooltip="Az Adet" data-inverted=""><i class="bell red icon"></i></a></td>
+              <td>
+                <a style="cursor: pointer" data-tooltip="Ekle" data-inverted=""><i class="plus icon green" id="add-material-button-<%= m.id%>"></i></a>
+                <div class="ui small modal" id="add-material-modal-<%= m.id %>">
+                  <div class="header">Depo Düznle</div>
+                  <div class="content">
+                    <%= form_for(m, html: { class: "ui form" }, url: material_path(m.id)) do |f| %>
+                      <input type="hidden" name="state" value="add">
+                      <div class="field">
+                        <label>Eklenecek Adet</label>
+                        <%= f.text_field :piece, placeholder: "Eklenecek Adet", require: true, value: 0%>
+                      </div>
+                      <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Ekle</button>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#add-material-button-<%= m.id%>').click(function(event) {
+                      $('#add-material-modal-<%= m.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
+                <a style="cursor: pointer" data-tooltip="Çıkar" data-inverted=""><i class="minus icon red" id="minus-material-button-<%= m.id%>"></i></a>
+                <div class="ui small modal" id="minus-material-modal-<%= m.id %>">
+                  <div class="header">Depo Düznle</div>
+                  <div class="content">
+                    <%= form_for(m, html: { class: "ui form" }, url: material_path(m.id)) do |f| %>
+                      <input type="hidden" name="state" value="minus">
+                      <div class="field">
+                        <label>Çıkartılacak Adet</label>
+                        <%= f.text_field :piece, placeholder: "Çıkartılacak Adet", require: true, value: 0%>
+                      </div>
+                      <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Çıkar</button>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#minus-material-button-<%= m.id%>').click(function(event) {
+                      $('#minus-material-modal-<%= m.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
+                <a style="cursor: pointer" data-tooltip="Düzenle" data-inverted=""><i class="edit icon" id="edit-material-button-<%= m.id%>"></i></a>
+                <div class="ui small modal" id="edit-material-modal-<%= m.id %>">
+                  <div class="header">Malzemeyi Düzenle</div>
+                  <div class="content">
+                    <%= form_for(m, html: { class: "ui form" }, url: material_path(m.id)) do |f| %>
+                      <input type="hidden" name="state" value="edit">
+                      <div class="field">
+                        <label>Malzeme Adı</label>
+                        <%= f.text_field :name, placeholder: "Malzeme Adı", require: true %>
+                      </div>
+                      <div class="field">
+                        <label>Malzeme Numarası</label>
+                        <%= f.text_field :no, placeholder: "Malzeme Numarası", require: true %>
+                      </div>
+                      <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Düzenle</button>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#edit-material-button-<%= m.id%>').click(function(event) {
+                      $('#edit-material-modal-<%= m.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
+                <a style="cursor: pointer" data-tooltip="Sil" data-inverted=""><i class="trash alternate icon red" id="delete-material-button-<%= m.id%>"></i></a>
+                <div class="ui basic mini modal" id="delete-material-modal-<%= m.id %>">
+                  <div class="ui icon header">
+                    Malzeme Silme
+                  </div>
+                  <div class="content">
+                    <p style="text-align: center;font-size: 16px">Malzemeyi silmek istediğinizden emin misiz?</p>
+                  </div>
+                  <div class="actions">
+                    <div class="ui basic cancel inverted button">
+                      <i class="remove icon"></i>
+                      İptal
+                    </div>
+                    <%= link_to material_path(m.id),method: :delete do%>
+                      <div class="ui red ok inverted button">
+                          <i class="checkmark icon"></i>
+                          Sil
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#delete-material-button-<%= m.id%>').click(function(event) {
+                      $('#delete-material-modal-<%= m.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
               </td>
             </tr>
           <% end %>
@@ -36,10 +136,109 @@
               <td><%= m.piece %></td>
               <td><a style="cursor: pointer" data-tooltip="Normal Adet" data-inverted=""><i class="bell green icon"></i></a></td>
               <td>
-                <a style="cursor: pointer" data-tooltip="Ekle" data-inverted=""><i class="plus icon green"></i></a>
-                <a style="cursor: pointer" data-tooltip="Çıkar" data-inverted=""><i class="minus icon red"></i></a>
-                <a style="cursor: pointer" data-tooltip="Düzenle" data-inverted=""><i class="edit icon"></i></a>
-                <a style="cursor: pointer" data-tooltip="Sil" data-inverted=""><i class="trash alternate icon red"></i></a>
+                <a style="cursor: pointer" data-tooltip="Ekle" data-inverted=""><i class="plus icon green" id="add-material-button-<%= m.id%>"></i></a>
+                <div class="ui small modal" id="add-material-modal-<%= m.id %>">
+                  <div class="header">Depo Düznle</div>
+                  <div class="content">
+                    <%= form_for(m, html: { class: "ui form" }, url: material_path(m.id)) do |f| %>
+                      <input type="hidden" name="state" value="add">
+                      <div class="field">
+                        <label>Eklenecek Adet</label>
+                        <%= f.text_field :piece, placeholder: "Eklenecek Adet", require: true, value: 0%>
+                      </div>
+                      <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Ekle</button>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#add-material-button-<%= m.id%>').click(function(event) {
+                      $('#add-material-modal-<%= m.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
+                <a style="cursor: pointer" data-tooltip="Çıkar" data-inverted=""><i class="minus icon red" id="minus-material-button-<%= m.id%>"></i></a>
+                <div class="ui small modal" id="minus-material-modal-<%= m.id %>">
+                  <div class="header">Depo Düznle</div>
+                  <div class="content">
+                    <%= form_for(m, html: { class: "ui form" }, url: material_path(m.id)) do |f| %>
+                      <input type="hidden" name="state" value="minus">
+                      <div class="field">
+                        <label>Çıkartılacak Adet</label>
+                        <%= f.text_field :piece, placeholder: "Çıkartılacak Adet", require: true, value: 0%>
+                      </div>
+                      <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Çıkar</button>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#minus-material-button-<%= m.id%>').click(function(event) {
+                      $('#minus-material-modal-<%= m.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
+                <a style="cursor: pointer" data-tooltip="Düzenle" data-inverted=""><i class="edit icon" id="edit-material-button-<%= m.id%>"></i></a>
+                <div class="ui small modal" id="edit-material-modal-<%= m.id %>">
+                  <div class="header">Malzemeyi Düzenle</div>
+                  <div class="content">
+                    <%= form_for(m, html: { class: "ui form" }, url: material_path(m.id)) do |f| %>
+                      <input type="hidden" name="state" value="edit">
+                      <div class="field">
+                        <label>Malzeme Adı</label>
+                        <%= f.text_field :name, placeholder: "Malzeme Adı", require: true %>
+                      </div>
+                      <div class="field">
+                        <label>Malzeme Numarası</label>
+                        <%= f.text_field :no, placeholder: "Malzeme Numarası", require: true %>
+                      </div>
+                      <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Düzenle</button>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#edit-material-button-<%= m.id%>').click(function(event) {
+                      $('#edit-material-modal-<%= m.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
+                <a style="cursor: pointer" data-tooltip="Sil" data-inverted=""><i class="trash alternate icon red" id="delete-material-button-<%= m.id%>"></i></a>
+                <div class="ui basic mini modal" id="delete-material-modal-<%= m.id %>">
+                  <div class="ui icon header">
+                    Malzeme Silme
+                  </div>
+                  <div class="content">
+                    <p style="text-align: center;font-size: 16px">Malzemeyi silmek istediğinizden emin misiz?</p>
+                  </div>
+                  <div class="actions">
+                    <div class="ui basic cancel inverted button">
+                      <i class="remove icon"></i>
+                      İptal
+                    </div>
+                    <%= link_to material_path(m.id),method: :delete do%>
+                      <div class="ui red ok inverted button">
+                          <i class="checkmark icon"></i>
+                          Sil
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                <script>
+                  $('#delete-material-button-<%= m.id%>').click(function(event) {
+                      $('#delete-material-modal-<%= m.id%>')
+                          .modal({
+                              autofocus: false
+                          })
+                          .modal('show');
+                  })
+                </script>
               </td>
             </tr>
           <% end %>
