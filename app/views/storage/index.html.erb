@@ -20,7 +20,7 @@
             <tr>
               <td><%= link_to s.name, materials_index_path(s.id)%> </td>
               <td><%= s.no %></td>
-              <td>200</td>
+              <td><%= s.materials.count %></td>
               <td><i class="bell red icon"></i></td>
               <td>
                 <a style="cursor: pointer" data-tooltip="Depoyu Düzenle" data-inverted=""><i class="edit icon" id="edit-storage-button-<%= s.id %>"></i></a>
@@ -86,7 +86,7 @@
             <tr>
               <td><%= link_to s.name, materials_index_path(s.id)%> </td>
               <td><%= s.no %></td>
-              <td>200</td>
+              <td><%= s.materials.count %></td>
               <td><i class="bell green icon"></i></td>
               <td>
                 <a style="cursor: pointer" data-tooltip="Depoyu Düzenle" data-inverted=""><i class="edit icon" id="edit-storage-button-<%= s.id %>"></i></a>

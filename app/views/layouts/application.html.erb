@@ -35,15 +35,9 @@
     <div class="site-wrap">
       <nav class="site-nav">
         <div class="name">
-          <%= current_user.name + " " + current_user.surname %>
+          STOK TAKİP SİSTEMİ
         </div>
         <ul>
-          <li class="<%='active' if params[:controller] == 'dashboard'%>">
-            <%= link_to root_path do %>
-              <i class="home icon"></i>
-              Anasayfa
-            <%end%>
-          </li>
           <li class="<%='active' if params[:controller] == 'storage'%>">
             <%= link_to storage_index_path do %>
               <i class="clipboard list icon"></i>
@@ -51,7 +45,7 @@
             <%end%>
           </li>
           <li class="<%='active' if params[:controller] == ''%>">
-            <%= link_to root_path do %>
+            <%= link_to users_path do %>
               <i class="users icon"></i>
               Kullanıcılar
             <%end%>
@@ -60,6 +54,12 @@
             <%= link_to root_path do %>
               <i class="file alternate icon"></i>
               Raporlar
+            <%end%>
+          </li>
+          <li class"<%='active' if params[:controller] == ''%>">
+            <%= link_to root_path do %>
+              <i class="user icon"></i>
+              Profil
             <%end%>
           </li>
           <li>
