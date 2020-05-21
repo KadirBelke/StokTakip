@@ -1,0 +1,33 @@
+<main>
+    <header>
+      <h1 class="title">Kullanıcılar</h1>
+      <nav class="nav-tabs" id="nav-tabs">
+      </nav>
+    </header>
+    <div class="content-columns" style="with: 100%">
+      <table class="ui blue table">
+        <thead>
+          <tr>
+            <th>Ünvan</th>
+            <th>Adı</th>
+            <th>Soyadı</th>
+            <th>Email</th>
+            <th>Yetki</th>
+            <th>Durum</th>
+          </tr>
+        </thead>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.title %></td>
+              <td><%= user.name %></td>
+              <td><%= user.surname %></td>
+              <td><%= user.email %></td>
+              <td><%= user.authority %></td>
+              <td><%= user.status %></td>
+            </tr>
+          <% end %>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+</main>

@@ -44,12 +44,14 @@
               Depolar
             <%end%>
           </li>
-          <li class="<%='active' if params[:controller] == ''%>">
-            <%= link_to users_path do %>
-              <i class="users icon"></i>
-              Kullanıcılar
-            <%end%>
-          </li>
+          <% if current_user.admin? %>
+            <li class="<%='active' if params[:controller] == ''%>">
+              <%= link_to users_path do %>
+                <i class="users icon"></i>
+                Kullanıcılar
+              <%end%>
+            </li>
+          <%end%>
           <li class"<%='active' if params[:controller] == ''%>">
             <%= link_to root_path do %>
               <i class="file alternate icon"></i>
