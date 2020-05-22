@@ -25,7 +25,7 @@
       <script>
         $('body')
           .toast({
-            class: '<%= key %>',
+            class: '<%= key == "error2" ? "error" : key %>',
             showIcon: false,
             message: '<%= value %>'
           })
