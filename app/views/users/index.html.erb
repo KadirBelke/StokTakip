@@ -16,14 +16,51 @@
             <th>Durum</th>
           </tr>
         </thead>
-          <% @users.each do |user| %>
+          <% @users.each_with_index do |user, index| %>
             <tr>
               <td><%= user.title %></td>
               <td><%= user.name %></td>
               <td><%= user.surname %></td>
               <td><%= user.email %></td>
-              <td><%= user.authority %></td>
-              <td><%= user.status %></td>
+              <td><%= user.authority.humanize %></td>
+              <td>
+                <% if user.waiting? %>
+                    Onay Bekliyor
+                    <a style="cursor: pointer" data-tooltip="Kullanıcıyı Onayla" data-inverted=""><i class="check green icon" id="edit-user-status-button-<%= index %>"></i></a>
+                    <div class="ui basic  modal" id="edit-user-status-modal-<%= index %>">
+                      <div class="ui icon header" >
+                        Kullanıcıyı Onaylama
+                      </div>
+                      <div class="content">
+                        <p style="text-align: center;font-size: 16px">Kullanıcıyı onaylamak istediğinizden emin misiniz?</p>
+                        <p style="text-align: center;font-size: 16px">Kullanıcı onaylandığında, kullanıcı depo işlemleri ve malzeme işlemlerine erişebilecektir.</p>
+                      </div>
+                      <div class="actions">
+                        <div class="ui basic cancel inverted button">
+                          <i class="remove icon"></i>
+                          İptal
+                        </div>
+                        <%= link_to user_path(user.id),method: :patch do%>
+                          <div class="ui green ok inverted button">
+                              <i class="checkmark icon"></i>
+                              Onayla
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                    <script>
+                      $('#edit-user-status-button-<%= index %>').click(function(event) {
+                          $('#edit-user-status-modal-<%= index %>')
+                            .modal({
+                                autofocus: false
+                            })
+                            .modal('show');
+                      })
+                    </script>
+                <% else %>
+                  Onaylı Kullanıcı
+                <% end %>
+              </td>
             </tr>
           <% end %>
         <tbody>

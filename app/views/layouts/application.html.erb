@@ -58,11 +58,11 @@
               Raporlar
             <%end%>
           </li>
-          <li class"<%='active' if params[:controller] == ''%>">
-            <%= link_to root_path do %>
+          <li>
+            <a style="cursor: pointer" id="edit-user-profile-button">
               <i class="user icon"></i>
               Profil
-            <%end%>
+            </a>
           </li>
           <li>
             <%= link_to destroy_user_session_path, method: :delete do %>
@@ -73,6 +73,39 @@
         </ul>
       </nav>
       <%= yield %>
+      <div class="ui small modal" id="edit-user-profile-modal">
+        <div class="header">
+          <p><%= current_user.title.humanize + " - " + current_user.name.humanize + " " + current_user.surname.humanize %></p>
+          <p><%= current_user.email %></p>
+        </div>
+        <div class="content">
+          <%= form_for(current_user, url: password_update_path(current_user.id), html: {class: "ui form", method: :patch }) do |f| %>
+            <%= f.hidden_field :reset_password_token %>
+            <div class="field">
+              <label>Parola</label>
+              <%= f.password_field :current_password, autofocus: true, autocomplete: "new-password" %>
+            </div>
+            <div class="field">
+              <label>Yeni Parola</label>
+              <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+            </div>
+            <div class="field">
+              <label>Yeni Parola</label>
+              <%= f.password_field :password_confirmation, autofocus: true, autocomplete: "new-password" %>
+            </div>
+            <button class="ui primary right floated button" type="submit" style="margin-bottom:10px">Düzenle</button>
+          <% end %>
+        </div>
+      </div>
+      <script>
+        $('#edit-user-profile-button').click(function(event) {
+              $('#edit-user-profile-modal')
+                  .modal({
+                      autofocus: false
+                  })
+                  .modal('show');
+        })
+      </script>
     </div>
   </body>
 </html>
