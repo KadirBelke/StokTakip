@@ -169,7 +169,7 @@
 <div class="ui small modal" id="create-storage-modal">
   <div class="header">Depo Ekle</div>
   <div class="content">
-    <%= form_for(@storage, html: { class: "ui form" }, url: '') do |f| %>
+    <%= form_for(@storage, html: { class: "ui form", method: "post"}, url: {action: "create"}) do |f| %>
       <div class="field">
         <label>Depo Adı</label>
         <%= f.text_field :name, placeholder: "Depo Adı", require: true %>
