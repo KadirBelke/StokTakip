@@ -3,16 +3,74 @@
      <h1 class="title">Raporlar</h1>
 
      <nav class="nav-tabs" id="nav-tabs">
-       <a class="active">
-         Kullanıcı Bazlı
-       </a>
-       <a>
+       <a class="active" style="cursor: pointer" id="material-based">
          Malzeme Bazlı
+       </a>
+       <a style="cursor: pointer" id="user-based">
+         Kullanıcı Bazlı
        </a>
      </nav>
    </header>
-
-   <div class="content-columns">
-
+   <div class="content-columns" style="with: 100%">
+     <table class="ui blue table" id="material-based-table" >
+       <thead>
+         <tr>
+           <th></th>
+           <th>Malzeme Adı</th>
+           <th>Malzeme Numarısı</th>
+           <th>Bulunduğu Depo</th>
+           <th>Kullanıldığı Adet</th>
+         </tr>
+       </thead>
+         <% @material_based.each_with_index do |m, index| %>
+           <tr>
+             <td><%= index+1 %></td>
+             <td><%= m.first.name %></td>
+             <td><%= m.first.no %></td>
+             <td><%= m.first.storage.name %></td>
+             <td><%= m.last %></td>
+           </tr>
+         <% end %>
+       <tbody>
+       </tbody>
+     </table>
+     <table class="ui blue table report-table" id="user-based-table">
+       <thead>
+         <tr>
+           <th></th>
+           <th>Kulanıcı Adı</th>
+           <th>Kulanıcı Soyadı</th>
+           <th>Kulanıcı Email</th>
+           <th>Kullanıldığı Malzeme Adeti</th>
+         </tr>
+       </thead>
+         <% @user_based.each_with_index do |m, index| %>
+           <tr>
+             <td><%= index+1 %></td>
+             <td><%= m.first.name %></td>
+             <td><%= m.first.surname %></td>
+             <td><%= m.first.email%></td>
+             <td><%= m.last %></td>
+           </tr>
+         <% end %>
+       <tbody>
+       </tbody>
+     </table>
    </div>
  </main>
+ <script>
+   $(document).ready(function(){
+      $("#material-based").click(function(){
+        $("#user-based-table").addClass("report-table")
+        $("#user-based").removeClass("active")
+        $("#material-based-table").removeClass("report-table")
+        $("#material-based").addClass("active")
+      });
+      $("#user-based").click(function(){
+        $("#material-based-table").addClass("report-table")
+        $("#material-based").removeClass("active")
+        $("#user-based-table").removeClass("report-table")
+        $("#user-based").addClass("active")
+      });
+   });
+ </script>
