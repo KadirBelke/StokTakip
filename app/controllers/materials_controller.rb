@@ -34,10 +34,16 @@ class MaterialsController < ApplicationController
       material.piece -= params[:material][:piece].to_i if params[:state] == "minus"
       if material.save
         flash[:success] = "Güncellendi"
+        operation = Operation.new
+        operation.category = params[:state]
+        operation.piece = params[:material][:piece]
+        operation.user_id = current_user.id
+        operation.material_id = material.id
+        operation.save!
         redirect_to materials_index_path(material.storage_id)
       else
         flash[:error] = "Hata Oluştu"
-        render :index
+        redirect_to materials_index_path(material.storage_id)
       end
     end
   end

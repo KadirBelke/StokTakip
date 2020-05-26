@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: 1
+  piece: 1
+  material: one
+  user: one
+
+two:
+  category: 1
+  piece: 1
+  material: two
+  user: two

@@ -10,18 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_21_192211) do
+ActiveRecord::Schema.define(version: 2020_05_26_145813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "adds", force: :cascade do |t|
-    t.integer "count"
-    t.bigint "materials_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["materials_id"], name: "index_adds_on_materials_id"
-  end
 
   create_table "materials", force: :cascade do |t|
     t.string "no"
@@ -33,12 +25,15 @@ ActiveRecord::Schema.define(version: 2020_05_21_192211) do
     t.index ["storage_id"], name: "index_materials_on_storage_id"
   end
 
-  create_table "negatives", force: :cascade do |t|
-    t.integer "count"
-    t.bigint "materials_id"
+  create_table "operations", force: :cascade do |t|
+    t.integer "category"
+    t.integer "piece"
+    t.bigint "material_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["materials_id"], name: "index_negatives_on_materials_id"
+    t.index ["material_id"], name: "index_operations_on_material_id"
+    t.index ["user_id"], name: "index_operations_on_user_id"
   end
 
   create_table "storages", force: :cascade do |t|
@@ -65,7 +60,7 @@ ActiveRecord::Schema.define(version: 2020_05_21_192211) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "adds", "materials", column: "materials_id"
   add_foreign_key "materials", "storages"
-  add_foreign_key "negatives", "materials", column: "materials_id"
+  add_foreign_key "operations", "materials"
+  add_foreign_key "operations", "users"
 end
