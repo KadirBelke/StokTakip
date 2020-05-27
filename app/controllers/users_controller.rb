@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :admin?, only: :index
 
   def index
     @users = User.all.sort_by{|u| u[:created_at]}
@@ -33,7 +34,8 @@ class UsersController < ApplicationController
   private
   def admin?
     unless current_user.admin?
-      root_path
+      flash[:error] = "Yetkiniz bulunamamaktadır."
+      redirect_to root_path
     end
   end
 
